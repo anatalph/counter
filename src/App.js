@@ -1,25 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Counter from './Counter';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
 
-function App() {
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+
+export function increment() {
+  return {
+    type: INCREMENT
+  }
+}
+
+
+export function decrement() {
+  return {
+    type: DECREMENT
+  }
+}
+
+const initialState = {
+  count: 0
+}
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return {
+        count: state.count + 1
+      }
+    case 'DECREMENT':
+      return {
+        count: state.count - 1
+      }
+    default:
+      return state
+  }
+}
+
+const store = createStore(reducer)
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Counter />
+    </Provider>
   );
 }
 
